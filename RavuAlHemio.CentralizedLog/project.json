@@ -1,12 +1,12 @@
 {
   "name": "RavuAlHemio.CentralizedLog",
-  "version": "0.0.0-*",
+  "version": "0.0.1-*",
   "authors": [
     "Ondřej Hošek"
   ],
   "title": "RavuAlHemio.CentralizedLog",
   "description": "Provides a centralized Microsoft.Extensions.Logging ILoggerFactory.",
-  "copyright": "Copyright \u00AE 2016 Ond\u0159ej Ho\u0161ek",
+  "copyright": "Copyright \u00A9 2016 Ond\u0159ej Ho\u0161ek",
   "packOptions": {
     "projectUrl": "https://github.com/RavuAlHemio/CentralizedLog",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
