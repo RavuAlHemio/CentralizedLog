@@ -1,0 +1,14 @@
+# Visual Studio and VS Code spam
+.vs/
+.vscode/
+*.suo
+
+# user-specific files
+*.user
+
+# build artifact subdirectories
+bin/
+obj/
+
+# .NET Core lockfile
+*.lock.json
