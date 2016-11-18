@@ -40,13 +40,8 @@ namespace RavuAlHemio.CentralizedLog
                 [LogLevel.Trace] = LogEventLevel.Verbose
             };
 
-            var serilogLoggerConfig = new LoggerConfiguration();
-            if (level.HasValue)
-            {
-                serilogLoggerConfig = serilogLoggerConfig
-                    .MinimumLevel.Is(serilogLevelMapping[level.Value]);
-            }
-            serilogLoggerConfig = serilogLoggerConfig
+            var serilogLoggerConfig = new LoggerConfiguration()
+                .MinimumLevel.Is(level.HasValue ? serilogLevelMapping[level.Value] : LogEventLevel.Verbose)
                 .WriteTo.RollingFile(Path.Combine(AppContext.BaseDirectory, $"{applicationName}-{{Date}}.log"));
 
             Factory.AddProvider(new SerilogLoggerProvider(serilogLoggerConfig.CreateLogger()));
