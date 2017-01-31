@@ -23,8 +23,9 @@
     "JetBrains.Annotations": "10.2.1",
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
-    "Serilog.Extensions.Logging": "1.4.0-dev-10136",
-    "Serilog.Sinks.RollingFile": "3.3.0-dev-00758"
+    "Serilog.Enrichers.Thread": "3.0.0-dev-00721",
+    "Serilog.Extensions.Logging": "1.4.0-dev-10138",
+    "Serilog.Sinks.RollingFile": "3.3.0-dev-00760"
   },
   "frameworks": {
     "netstandard1.3": {

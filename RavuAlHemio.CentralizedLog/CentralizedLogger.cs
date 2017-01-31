@@ -42,7 +42,11 @@ namespace RavuAlHemio.CentralizedLog
 
             var serilogLoggerConfig = new LoggerConfiguration()
                 .MinimumLevel.Is(level.HasValue ? serilogLevelMapping[level.Value] : LogEventLevel.Verbose)
-                .WriteTo.RollingFile(Path.Combine(AppContext.BaseDirectory, $"{applicationName}-{{Date}}.log"));
+                .Enrich.WithThreadId()
+                .WriteTo.RollingFile(
+                    pathFormat: Path.Combine(AppContext.BaseDirectory, $"{applicationName}-{{Date}}.log"),
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{ThreadId}] [{Level}] {Message}{NewLine}{Exception}"
+                );
 
             Factory.AddProvider(new SerilogLoggerProvider(serilogLoggerConfig.CreateLogger()));
         }
