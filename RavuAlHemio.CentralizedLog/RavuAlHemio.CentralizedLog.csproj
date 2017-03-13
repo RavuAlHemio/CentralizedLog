@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Provides a centralized Microsoft.Extensions.Logging ILoggerFactory.</Description>
+    <Copyright>Copyright © 2016 Ondřej Hošek</Copyright>
+    <AssemblyTitle>RavuAlHemio.CentralizedLog</AssemblyTitle>
+    <VersionPrefix>0.0.6</VersionPrefix>
+    <Authors>Ondřej Hošek</Authors>
+    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <DebugType>portable</DebugType>
+    <AssemblyName>RavuAlHemio.CentralizedLog</AssemblyName>
+    <PackageId>RavuAlHemio.CentralizedLog</PackageId>
+    <PackageProjectUrl>https://github.com/RavuAlHemio/CentralizedLog</PackageProjectUrl>
+    <PackageLicenseUrl>https://creativecommons.org/publicdomain/zero/1.0/</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/RavuAlHemio/CentralizedLog.git</RepositoryUrl>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.1</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="10.4.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="1.4.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.AppContext" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
