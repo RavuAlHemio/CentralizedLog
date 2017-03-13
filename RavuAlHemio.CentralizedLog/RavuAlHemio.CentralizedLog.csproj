@@ -4,7 +4,7 @@
     <Description>Provides a centralized Microsoft.Extensions.Logging ILoggerFactory.</Description>
     <Copyright>Copyright © 2016 Ondřej Hošek</Copyright>
     <AssemblyTitle>RavuAlHemio.CentralizedLog</AssemblyTitle>
-    <VersionPrefix>0.0.6</VersionPrefix>
+    <VersionPrefix>0.0.7</VersionPrefix>
     <Authors>Ondřej Hošek</Authors>
     <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
     <DebugType>portable</DebugType>
