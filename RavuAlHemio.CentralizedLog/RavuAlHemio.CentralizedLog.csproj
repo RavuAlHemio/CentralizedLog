@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <Description>Provides a centralized Microsoft.Extensions.Logging ILoggerFactory.</Description>
-    <Copyright>Copyright © 2016 Ondřej Hošek</Copyright>
+    <Copyright>Copyright © 2016–2017 Ondřej Hošek</Copyright>
     <AssemblyTitle>RavuAlHemio.CentralizedLog</AssemblyTitle>
-    <VersionPrefix>0.0.7</VersionPrefix>
+    <VersionPrefix>0.0.8</VersionPrefix>
     <Authors>Ondřej Hošek</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <DebugType>portable</DebugType>
