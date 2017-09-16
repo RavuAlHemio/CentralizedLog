@@ -17,6 +17,7 @@ namespace RavuAlHemio.CentralizedLog
         public static readonly IReadOnlyDictionary<LogLevel, LogEventLevel> SerilogLevelMapping =
             new Dictionary<LogLevel, LogEventLevel>
             {
+                [LogLevel.None] = LogEventLevel.Fatal + 1,
                 [LogLevel.Critical] = LogEventLevel.Fatal,
                 [LogLevel.Error] = LogEventLevel.Error,
                 [LogLevel.Warning] = LogEventLevel.Warning,
