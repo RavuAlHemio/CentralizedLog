@@ -14,23 +14,8 @@ namespace RavuAlHemio.CentralizedLog
     {
         public static ILoggerFactory Factory { get; set; }
 
-        static CentralizedLogger()
-        {
-            Factory = new LoggerFactory();
-        }
-
-        public static void SetupConsoleLogging([CanBeNull] LogLevel? minimumLevel = null, [CanBeNull] Dictionary<string, LogLevel> logFilter = null)
-        {
-            var consoleProvider = new ConsoleLoggerProvider(
-                (text, logLevel) => LogFilter(text, logLevel, minimumLevel, logFilter),
-                true
-            );
-            Factory.AddProvider(consoleProvider);
-        }
-
-        public static void SetupFileLogging([NotNull] string applicationName, [CanBeNull] LogLevel? level = null)
-        {
-            var serilogLevelMapping = new Dictionary<LogLevel, LogEventLevel>
+        public static readonly IReadOnlyDictionary<LogLevel, LogEventLevel> SerilogLevelMapping =
+            new Dictionary<LogLevel, LogEventLevel>
             {
                 [LogLevel.Critical] = LogEventLevel.Fatal,
                 [LogLevel.Error] = LogEventLevel.Error,
@@ -40,8 +25,27 @@ namespace RavuAlHemio.CentralizedLog
                 [LogLevel.Trace] = LogEventLevel.Verbose
             };
 
+        static CentralizedLogger()
+        {
+            Factory = new LoggerFactory();
+        }
+
+        public static void SetupConsoleLogging([CanBeNull] LogLevel? minimumLevel = null,
+                [CanBeNull] Dictionary<string, LogLevel> logFilter = null)
+        {
+            var consoleProvider = new ConsoleLoggerProvider(
+                (text, logLevel) => ConsoleLogFilter(text, logLevel, minimumLevel, logFilter),
+                true
+            );
+            Factory.AddProvider(consoleProvider);
+        }
+
+        public static void SetupFileLogging([NotNull] string applicationName, [CanBeNull] LogLevel? level = null,
+                [CanBeNull] Dictionary<string, LogLevel> logFilter = null)
+        {
             var serilogLoggerConfig = new LoggerConfiguration()
-                .MinimumLevel.Is(level.HasValue ? serilogLevelMapping[level.Value] : LogEventLevel.Verbose)
+                .MinimumLevel.Is(level.HasValue ? SerilogLevelMapping[level.Value] : LogEventLevel.Verbose)
+                .Filter.ByIncludingOnly(evt => FileLogFilter(evt, logFilter))
                 .Enrich.WithThreadId()
                 .WriteTo.RollingFile(
                     pathFormat: Path.Combine(AppContext.BaseDirectory, $"{applicationName}-{{Date}}.log"),
@@ -51,7 +55,8 @@ namespace RavuAlHemio.CentralizedLog
             Factory.AddProvider(new SerilogLoggerProvider(serilogLoggerConfig.CreateLogger()));
         }
 
-        static bool LogFilter(string logger, LogLevel level, [CanBeNull] LogLevel? minimumLevel = null, [CanBeNull] Dictionary<string, LogLevel> logFilter = null)
+        static bool ConsoleLogFilter(string logger, LogLevel level, [CanBeNull] LogLevel? minimumLevel = null,
+                [CanBeNull] Dictionary<string, LogLevel> logFilter = null)
         {
             if (minimumLevel.HasValue && level < minimumLevel.Value)
             {
@@ -71,6 +76,23 @@ namespace RavuAlHemio.CentralizedLog
             }
 
             return true;
+        }
+
+        static bool FileLogFilter(LogEvent evt, [CanBeNull] Dictionary<string, LogLevel> filter)
+        {
+            if (filter == null)
+            {
+                return true;
+            }
+
+            LogLevel minimumLevel;
+            string className = (string)((ScalarValue)evt.Properties["SourceContext"]).Value;
+            if (!filter.TryGetValue(className, out minimumLevel))
+            {
+                return true;
+            }
+
+            return evt.Level >= SerilogLevelMapping[minimumLevel];
         }
     }
 }
